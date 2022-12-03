@@ -22,18 +22,9 @@ int outcome(char enemyInput, char myInput)
     return -1;
 }
 
-int main()
+void part1(char enemyInput, char myInput, int &score)
 {
-    string input;
-    char enemyInput;
-    char myInput;
-    int score = 0;
-    while (getline(fin, input))
-    {
-        enemyInput = input[0];
-        myInput = input[2];
-
-        switch (myInput)
+    switch (myInput)
         {
         case 'X': //Rock (1p)
             score += 1;
@@ -56,6 +47,95 @@ int main()
         {
             score += 3;
         }
+}
+
+void losingInputs(char enemyInput, int &score)
+{
+    switch (enemyInput)
+        {
+        case 'A': //I need to play scissors
+            score += 3;
+            break;
+        case 'B': //I need to play rock
+            score += 1;
+            break;
+        case 'C': //I need to paper
+            score += 2;
+            break;
+        default:
+            break;
+        }
+}
+
+void drawInput(char enemyInput, int &score)
+{
+    switch (enemyInput)
+        {
+        case 'A':
+            score += 1;
+            break;
+        case 'B':
+            score += 2;
+            break;
+        case 'C':
+            score += 3;
+            break;
+        default:
+            break;
+        }
+}
+
+void winningInputs(char enemyInput, int &score)
+{
+    switch (enemyInput)
+        {
+        case 'A': //I need to play paper
+            score += 2;
+            break;
+        case 'B': //I need to play scissors
+            score += 3;
+            break;
+        case 'C': //I need to play rock
+            score += 1;
+            break;
+        default:
+            break;
+        }
+}
+
+void part2(char enemyInput, char myInput, int &score)
+{
+    switch (myInput)
+        {
+        case 'X': //Loss
+            losingInputs(enemyInput, score);
+            break;
+        case 'Y': //Draw
+            drawInput(enemyInput, score);
+            score += 3;
+            break;
+        case 'Z': //Win
+            winningInputs(enemyInput, score);
+            score += 6;
+            break;
+        default:
+            break;
+        }
+}
+
+int main()
+{
+    string input;
+    char enemyInput;
+    char myInput;
+    int score = 0;
+    while (getline(fin, input))
+    {
+        enemyInput = input[0];
+        myInput = input[2];
+
+        // part1(enemyInput, myInput, score);
+        part2(enemyInput, myInput, score);
     }
 
     cout << score;
