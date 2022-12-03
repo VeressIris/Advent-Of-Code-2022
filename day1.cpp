@@ -1,22 +1,8 @@
 #include <iostream>
 #include <fstream>
-#include <cstring>
+#include <string>
 
 using namespace std;
-
-//converts string to a number
-int stringToInt(char *s)
-{
-    int ans = 0;
-    int digit;
-    for (int i = 0; i < strlen(s) - 1; i++)
-    {
-        digit = s[i] - '0';
-        ans = ans * 10 + digit;
-    }
-
-    return ans;
-}
 
 int main()
 {
@@ -37,7 +23,7 @@ int main()
             else
             {
                 //add up total calories per elf
-                number = stringToInt(input);
+                number = stoi(input);
                 totalCals += number;
             }
 
