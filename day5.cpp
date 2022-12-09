@@ -10,8 +10,53 @@ ifstream fin ("day5.in");
 
 #define SIZE 36 //counted maximum chars from puzzle input, it's 35 (+1 for '\0')
 
+int myStoi(char *s)
+{
+    int len = strlen(s);
+    int l = len;
+    if (s[len - 1] == '\n')
+    {
+        l = len - 1;
+    }
+
+    int digit;
+    int ans = 0;
+    for (int i = 0; i < l; i++)
+    {
+        digit = s[i] - '0';
+        ans = ans * 10 + digit;
+    }
+
+    return ans;
+}
+
+struct command{
+    int nrOfMoves;
+    int startPos;
+    int destination;
+};
+
+//puts all numbers from the commands into an array
+void getCommandNumbers(char input[SIZE], int commands[SIZE][SIZE], int &i, int &j)
+{
+    char *p;
+    p = strtok(input, " ");
+    j = 0;
+    while(p != NULL)
+    {
+        if (isdigit(p[0]))
+        {
+            commands[i][j] = myStoi(p);
+            j++;
+        }
+        p = strtok(NULL, " ");
+    }
+
+    i++;
+}
+
 //splits input into stacks and commands
-void splitInput(char crateStack[SIZE][SIZE], char commands[SIZE][SIZE])
+void splitInput(char crateStack[SIZE][SIZE], int commands[SIZE][SIZE])
 {
     char input[SIZE];
     FILE *file = fopen("day5.in", "r");
@@ -33,13 +78,14 @@ void splitInput(char crateStack[SIZE][SIZE], char commands[SIZE][SIZE])
     }
 
     i = 0;
+    int j = 0;
     while(true)
     {
         if (fgets(input, SIZE, file))
         {
             if (*input != '\n')
             {
-                strcpy(commands[i++], input);
+                getCommandNumbers(input, commands, i, j);
             }
         }
         else
@@ -66,24 +112,34 @@ void createStacks(char crateStack[SIZE][SIZE], stack<char> stacks[9], int &n)
         index++;
     }
 
-    n = index;
+    n = index; //number of rows in stack
 }
 
-void part1(char commands[SIZE][SIZE], stack<char> stacks[9], int n)
+void part1(stack<char> stacks[9], int commands[SIZE][SIZE], int n)
 {
     
+    for (int i = 0; i < n; i++)
+    {
+        while(!stacks[i].empty())
+        {
+            cout << stacks[i].top();
+            stacks[i].pop();
+        }
+        cout << endl;
+    }
 }
 
 int main()
 {
     char crateStack[SIZE][SIZE];
-    char commands[SIZE][SIZE];
+    int commands[SIZE][SIZE];
     splitInput(crateStack, commands);
 
-    int n;
     stack<char> stacks[9];
+    int n;
     createStacks(crateStack, stacks, n);
 
+    part1(stacks, commands, n);
 
     // //print the stack
     // for (int i = 0; i < n; i++)
