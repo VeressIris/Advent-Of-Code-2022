@@ -63,14 +63,16 @@ void createStacks(char crateStack[SIZE][SIZE], stack<char> stacks[9], int &n)
             }
         }
         
-
         index++;
     }
 
     n = index;
 }
 
-
+void part1(char commands[SIZE][SIZE], stack<char> stacks[9], int n)
+{
+    
+}
 
 int main()
 {
@@ -79,8 +81,8 @@ int main()
     splitInput(crateStack, commands);
 
     int n;
-   stack<char> stacks[9];
-   createStacks(crateStack, stacks, n);
+    stack<char> stacks[9];
+    createStacks(crateStack, stacks, n);
 
 
     // //print the stack
