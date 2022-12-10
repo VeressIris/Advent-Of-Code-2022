@@ -71,49 +71,6 @@ void part1(char *input, int &ans)
     }
 }
 
-vector<int> xVals;
-void giveXValues(char *input)
-{
-    cycle++;
-
-    xVals.push_back(X);
-
-    if (cycleCounter(input) == 2)
-    {   
-        cycle++;
-
-        V = getAddxValue(input);
-        X += V;
-
-        xVals.push_back(X);
-    }
-}
-
-char CRT[6][40];
-int k = 0;
-void part2(char *input, int ans)
-{
-    giveXValues(input);
-
-    for (int i = 0; i < 6; i++)
-    {
-        for (int j = 0; j < 40; j++)
-        {
-            k = i * 40 + j + 1;
-
-            if (abs(xVals[k - 1] - i) <= 1)
-            {
-                CRT[i][j] = '#';
-                CRT[i][j + 1] = '#';
-            }
-            else
-            {
-                CRT[i][j] = ' ';
-            }
-        }
-    }
-}
-
 int main()
 {
     char input[MAX_SIZE];
@@ -121,18 +78,8 @@ int main()
     while (fin.getline(input, MAX_SIZE))
     {
         part1(input, ans);
-        // part2(input, ans);
     }
     cout << ans;
-
-    // for (int i = 0; i < 6; i++)
-    // {
-    //     for (int j = 0; j < 40; j++)
-    //     {
-    //         cout << CRT[i][j] << ' ';
-    //     }
-    //     cout << endl;
-    // }
 
     return 0;
 }
