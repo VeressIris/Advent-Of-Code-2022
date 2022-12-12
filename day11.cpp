@@ -13,29 +13,27 @@ ifstream fin("day11.in");
 
 struct monkey
 {
-    vector<int> startingItems;
+    vector<int> startingItems; 
     char opSign;
     int opNumber;
     int testNumber;
     int trueDest;
-    int falseDest = 0;
-    int inspectCount;
+    int falseDest;
+    int inspectCount = 0;
     int index;
 } monkeys[8]; //8 monkeys in puzzle input
 
 int myStoi(char *input)
 {
     int len = strlen(input);
-    int i = 1;
     if (input[strlen(input) - 1] == '\n') //ignore new line char for the last numbers
     {
         len--;
-        i = 0;
     }
 
     int ans = 0;
     int digit;
-    for (i; i < len; i++)
+    for (int i = 1; i < len; i++)
     {
         digit = input[i] - '0';
         ans = ans * 10 + digit;
@@ -55,7 +53,7 @@ void assignMonkeyVals(char *input, int index)
             {
                 if (isdigit(p[i]))
                 {
-                    monkeys[index].startingItems.push_back(myStoi(p + i));
+                    monkeys[index].startingItems.push_back(myStoi(p));
                     break;
                 }
             }
@@ -66,7 +64,7 @@ void assignMonkeyVals(char *input, int index)
     else if (input[2] == 'O')
     {
         monkeys[index].opSign = input[23];
-        monkeys[index].opNumber = myStoi(input + 25);
+        monkeys[index].opNumber = myStoi(input + 24);
     }
     else if (input[2] == 'T')
     {
@@ -74,17 +72,17 @@ void assignMonkeyVals(char *input, int index)
     }
     else if (input[7] == 't')
     {
-        monkeys[index].trueDest = myStoi(input + strlen(input) - 2);
+        monkeys[index].trueDest = myStoi(input + 28);
     }
     else if (input[7] == 'f')
     {
-        monkeys[index].falseDest = myStoi(input + strlen(input) - 2);
+        monkeys[index].falseDest = myStoi(input + 29);
     }
 }
 
 int processInput(char *input, FILE *file)
 {
-    int monkeyNr;
+    int monkeyNr = 0;
 
     while(true)
     {
@@ -103,7 +101,7 @@ int processInput(char *input, FILE *file)
         else
         {
             monkeys[monkeyNr].index = monkeyNr;
-            monkeyNr++; //get that last monkey
+            monkeyNr++; //get the last monkey
             break;
         }
     }
@@ -164,9 +162,10 @@ int main()
             {
                 old = monkeys[i].startingItems[j];
                 newW = operation(old, i);
-                monkeys[i].inspectCount++;
-                newW = floor(newW / 3);
 
+                monkeys[i].inspectCount++;
+                
+                newW = floor(newW / 3);
                 if ((int)newW % monkeys[i].testNumber == 0)
                 {
                     dest = monkeys[i].trueDest;
@@ -181,13 +180,13 @@ int main()
         }
     }
 
-    sortByInspectCount(k);
-    int monkeyBusiness = 1;
-    for (int i = 0; i < k; i++)
-    {
-        cout << "monkey " << monkeys[i].index << " inspected items " << monkeys[i].inspectCount << " times\n";
-        // monkeyBusiness *= monkeys[i].inspectCount;
-    }
+    // sortByInspectCount(k);
+    // int monkeyBusiness = 1;
+    // for (int i = 0; i < k; i++)
+    // {
+    //     cout << "monkey " << monkeys[i].index << " inspected items " << monkeys[i].inspectCount << " times\n";
+    //     monkeyBusiness *= monkeys[i].inspectCount;
+    // }
     // cout << monkeyBusiness;
     
     return 0;
